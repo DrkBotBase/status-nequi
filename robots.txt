@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Sitemap: https://nequi.mjfood.top/sitemap.xml
+Crawl-delay: 10
