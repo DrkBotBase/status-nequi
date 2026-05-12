@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, viewport-fit=cover">
+    
+    <title>Estado del servicio Nequi | Monitoreo en tiempo real</title>
+    <meta name="description" content="Estado en tiempo real de los servicios de Nequi Colombia. Ingreso App, Envíos, Retiros, Recargas, Pagos PSE, Tarjeta Nequi y más. Actualización cada 10 minutos.">
+    <meta name="keywords" content="Nequi, estado Nequi, servicios Nequi, monitoreo Nequi, Nequi falla, Nequi hoy, Nequi operacional, Ingreso App Nequi, Envíos Nequi, Recargas Nequi, Pagos PSE Nequi, Tarjeta Nequi, QR Nequi">
+    <meta name="author" content="Nequi Status Monitor">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow">
+    
+    <link rel="canonical" href="https://status-nequi.mjfood.top/">
+    
+    <meta name="language" content="Spanish">
+    <meta name="geo.region" content="CO">
+    <meta name="geo.placename" content="Colombia">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://status-nequi.mjfood.top/">
+    <meta property="og:title" content="Estado del servicio Nequi en tiempo real">
+    <meta property="og:description" content="Consulta el estado actual de todos los servicios de Nequi Colombia. Monitoreo actualizado cada 10 minutos.">
+    <meta property="og:image" content="https://status-nequi.mjfood.top/banner.png">
+    <meta property="og:image:alt" content="Estado de servicios Nequi">
+    <meta property="og:image:width" content="1536">
+    <meta property="og:image:height" content="1024">
+    <meta property="og:locale" content="es_CO">
+    <meta property="og:site_name" content="Nequi Status Monitor">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://status-nequi.mjfood.top/">
+    <meta name="twitter:title" content="Estado del servicio Nequi en tiempo real">
+    <meta name="twitter:description" content="Monitoreo en tiempo real de los servicios de Nequi Colombia. Actualización cada 10 minutos.">
+    <meta name="twitter:image" content="https://status-nequi.mjfood.top/banner.png">
+    <meta name="twitter:image:alt" content="Estado de servicios Nequi">
+    
+    <link rel="apple-touch-icon" href="https://status-nequi.mjfood.top/icon.png">
+    
+    <meta name="theme-color" content="#4f46e5">
+    <meta name="msapplication-TileColor" content="#4f46e5">
+    
+    <meta name="google-site-verification" content="">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .animate-pulse-slow {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .focus\:outline-none:focus {
+            outline: 2px solid #4f46e5;
+            outline-offset: 2px;
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Nequi Status Monitor",
+        "url": "https://status-nequi.mjfood.top/",
+        "description": "Monitoreo en tiempo real del estado de los servicios de Nequi Colombia",
+        "inLanguage": "es-CO",
+        "publisher": {
+            "@type": "Organization",
+            "name": "Nequi Status Monitor",
+            "url": "https://status-nequi.mjfood.top"
+        },
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": "https://status-nequi.mjfood.top/?q={search_term}"
+            },
+            "query-input": "required name=search_term"
+        }
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "serviceType": "Monitoreo de servicios financieros",
+        "provider": {
+            "@type": "Organization",
+            "name": "Nequi"
+        },
+        "areaServed": {
+            "@type": "Country",
+            "name": "Colombia"
+        },
+        "availableChannel": {
+            "@type": "ServiceChannel",
+            "serviceUrl": "https://status-nequi.mjfood.top/",
+            "language": "es"
+        }
+    }
+    </script>
+</head>
+<body class="bg-gray-100 min-h-screen pb-10">
+    <div class="bg-gradient-to-r from-indigo-600 to-indigo-700 bg-pattern pb-16 pt-8 px-6 rounded-b-[3rem] shadow-xl text-white relative">
+        <div class="max-w-md mx-auto text-center">
+            <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-1.5 rounded-full text-sm mb-3">
+                <i class="fas fa-chart-line opacity-70"></i>
+                <span>Estado del servicio</span>
+            </div>
+            <div class="flex items-center justify-center gap-3 mb-2">
+                <div id="statusIndicator" class="w-3 h-3 bg-gray-300 rounded-full"></div>
+                <h1 id="generalStatus" class="text-2xl font-extrabold">
+                    Cargando...
+                </h1>
+            </div>
+            <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-1.5 rounded-full text-sm">
+                <i class="fas fa-sync-alt opacity-70"></i>
+                <span id="lastUpdateText">Actualizando...</span>
+            </div>
+            <div id="cacheInfo" class="text-xs text-indigo-200 mt-2"></div>
+        </div>
+    </div>
+
+    <div class="max-w-md mx-auto px-4 -mt-16 relative z-10 space-y-5">
+        <div class="bg-white rounded-3xl shadow-lg p-5 border border-gray-100 fade-in">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-gray-500 font-bold text-sm uppercase tracking-wider">
+                    <i class="fas fa-server mr-2 text-indigo-400"></i>Estado General
+                </h3>
+                <div id="globalStatusBadge" class="px-2 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700">
+                    Operacional
+                </div>
+            </div>
+            <div class="grid grid-cols-3 gap-2 text-center divide-x divide-gray-100">
+                <div>
+                    <p class="text-[10px] text-gray-400 font-bold uppercase">Servicios</p>
+                    <p id="totalServices" class="font-bold text-gray-600 text-lg">0</p>
+                </div>
+                <div>
+                    <p class="text-[10px] text-gray-400 font-bold uppercase">Operativos</p>
+                    <p id="operationalCount" class="font-bold text-emerald-600 text-lg">0</p>
+                </div>
+                <div>
+                    <p class="text-[10px] text-gray-400 font-bold uppercase">Afectados</p>
+                    <p id="affectedCount" class="font-bold text-red-500 text-lg">0</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="contentContainer" class="space-y-3">
+            <div class="bg-white p-8 rounded-2xl text-center text-gray-400 shadow-sm">
+                <i class="fas fa-spinner fa-spin text-3xl mb-2 opacity-50"></i>
+                <p class="text-sm">Cargando información de servicios...</p>
+            </div>
+        </div>
+
+        <div class="text-center pt-6 pb-4">
+            <p class="text-xs text-gray-400">
+                Datos proporcionados por Nequi
+                </br>
+                <span class="text-indigo-500">●</span> API: <span id="api-domain">cargando...</span>
+            </p>
+        </div>
+    </div>
+
+<script>
+    const API_URL = 'https://delivery.mjfood.top/nq/api/status';
+    const CACHE_KEY = 'nequi_status_cache';
+    const CACHE_DURATION = 10 * 60 * 1000;
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      const url = API_URL.split("//")[1] || API_URL;
+      document.getElementById('api-domain').textContent = url;
+    });
+    
+    function translateStatus(status) {
+        const translations = {
+            'Operational': 'Operacional',
+            'Degraded Performance': 'Rendimiento degradado',
+            'Partial Outage': 'Interrupción parcial',
+            'Major Outage': 'Interrupción mayor',
+            'Maintenance': 'Mantenimiento'
+        };
+        return translations[status] || status;
+    }
+    
+    function translateGeneralStatus(status) {
+        if (status === "All Systems Operational") {
+            return "Todos los Sistemas funcionando";
+        }
+        return status;
+    }
+    
+    function saveToCache(data) {
+        const cacheData = {
+            timestamp: Date.now(),
+            data: data
+        };
+        localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
+    }
+    
+    function getFromCache() {
+        const cached = localStorage.getItem(CACHE_KEY);
+        if (!cached) return null;
+        
+        const cacheData = JSON.parse(cached);
+        const now = Date.now();
+        const age = now - cacheData.timestamp;
+        
+        if (age < CACHE_DURATION) {
+            return cacheData.data;
+        }
+        
+        return null;
+    }
+    
+    function formatDate(dateString) {
+        if (!dateString) return '--';
+        try {
+            const date = new Date(dateString);
+            return date.toLocaleString('es-CO', {
+                day: '2-digit',
+                month: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        } catch(e) {
+            return dateString;
+        }
+    }
+    
+    function getStatusColor(statusClass) {
+        const colors = {
+            operational: 'green',
+            degraded: 'yellow',
+            partial: 'orange',
+            outage: 'red',
+            maintenance: 'blue'
+        };
+        return colors[statusClass] || 'gray';
+    }
+    
+    function getStatusBadge(status, statusClass) {
+        const translatedStatus = translateStatus(status);
+        const color = getStatusColor(statusClass);
+        const bgColors = {
+            green: 'bg-green-100 text-green-700',
+            yellow: 'bg-yellow-100 text-yellow-700',
+            orange: 'bg-orange-100 text-orange-700',
+            red: 'bg-red-100 text-red-700',
+            blue: 'bg-blue-100 text-blue-700',
+            gray: 'bg-gray-100 text-gray-600'
+        };
+        return `<span class="px-2 py-1 rounded-full text-xs font-bold ${bgColors[color]}">${translatedStatus}</span>`;
+    }
+    
+    function getStatusIcon(statusClass) {
+        const icons = {
+            operational: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAVCAYAAACpF6WWAAAAwnpUWHRSYXcgcHJvZmlsZSB0eXBlIGV4aWYAAHjabVBbDsMgDPvnFDsCiQMNx6FbJ+0GO/5Ck1ZlmyWch5EJSdv79Uy3ASZJUhatrdZskCaNuyWaHX1nyrKzFyU0mvvpFNhasAgvtcb9o0+ngYduWbkY6T2EdRaahL9+GbEHjIlG/gijFkZgFygMun8r16bL9QvrlmeonzRIdB77p15se49i74B5AyEbA+IDYBwkdEvEeMg2MMreqcYAhZkt5N+eDqQP4pNZDP47ii0AAAGFaUNDUElDQyBwcm9maWxlAAB4nH2RO0jDQBzGvz5EKRVBO4g4ZKi62MEH4lirUIQKoVZo1cHk0hc0aUhSXBwF14KDj8Wqg4uzrg6ugiD4AHF1cVJ0kRL/lxRaxHhw3I/v7vu4+w7wNypMNYNxQNUsI51MCNncqtD9iiBC6McExiRm6nOimILn+LqHj693MZ7lfe7P0avkTQb4BOI40w2LeIN4ZtPSOe8TR1hJUojPiccNuiDxI9dll984Fx3288yIkUnPE0eIhWIHyx3MSoZKPE0cVVSN8v1ZlxXOW5zVSo217slfGM5rK8tcpzmMJBaxBBECZNRQRgUWYrRqpJhI037Cwz/k+EVyyeQqg5FjAVWokBw/+B/87tYsTE26SeEE0PVi2x8jQPcu0Kzb9vexbTdPgMAzcKW1/dUGMPtJer2tRY+Avm3g4rqtyXvA5Q4w+KRLhuRIAZr+QgF4P6NvygEDt0Boze2ttY/TByBDXaVugINDYLRI2ese7+7p7O3fM63+fgDGwnLIfpAxWQAADXppVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+Cjx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IlhNUCBDb3JlIDQuNC4wLUV4aXYyIj4KIDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+CiAgPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIKICAgIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIgogICAgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIKICAgIHhtbG5zOkdJTVA9Imh0dHA6Ly93d3cuZ2ltcC5vcmcveG1wLyIKICAgIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIKICAgIHhtbG5zOnRpZmY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vdGlmZi8xLjAvIgogICAgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIgogICB4bXBNTTpEb2N1bWVudElEPSJnaW1wOmRvY2lkOmdpbXA6NGQwZGU0YmItODI4My00MGFkLWE5YWItZDZkZGU4MThjY2I5IgogICB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjY2MmVlZDliLTc2YzMtNDEzYS1iNGY4LTcxMGYyNTNkODAxNiIKICAgeG1wTU06T3JpZ2luYWxEb2N1bWVudElEPSJ4bXAuZGlkOjdlYTU3ODQzLWEwYTItNDM3OS1hZTU1LThkYTgxMzE4YWY2OSIKICAgR0lNUDpBUEk9IjIuMCIKICAgR0lNUDpQbGF0Zm9ybT0iTWFjIE9TIgogICBHSU1QOlRpbWVTdGFtcD0iMTY4MTE1MzYwMTk4MTc3MSIKICAgR0lNUDpWZXJzaW9uPSIyLjEwLjM0IgogICBkYzpGb3JtYXQ9ImltYWdlL3BuZyIKICAgdGlmZjpPcmllbnRhdGlvbj0iMSIKICAgeG1wOkNyZWF0b3JUb29sPSJHSU1QIDIuMTAiCiAgIHhtcDpNZXRhZGF0YURhdGU9IjIwMjM6MDQ6MTBUMTU6MDY6MzEtMDQ6MDAiCiAgIHhtcDpNb2RpZnlEYXRlPSIyMDIzOjA0OjEwVDE1OjA2OjMxLTA0OjAwIj4KICAgPHhtcE1NOkhpc3Rvcnk+CiAgICA8cmRmOlNlcT4KICAgICA8cmRmOmxpCiAgICAgIHN0RXZ0OmFjdGlvbj0ic2F2ZWQiCiAgICAgIHN0RXZ0OmNoYW5nZWQ9Ii8iCiAgICAgIHN0RXZ0Omluc3RhbmNlSUQ9InhtcC5paWQ6ODQzMWZmNjItMmRmYy00MjAyLTk2OGItMDkwNDg0MGI3MTBhIgogICAgICBzdEV2dDpzb2Z0d2FyZUFnZW50PSJHaW1wIDIuMTAgKE1hYyBPUykiCiAgICAgIHN0RXZ0OndoZW49IjIwMjMtMDQtMTBUMTU6MDY6NDEtMDQ6MDAiLz4KICAgIDwvcmRmOlNlcT4KICAgPC94bXBNTTpIaXN0b3J5PgogIDwvcmRmOkRlc2NyaXB0aW9uPgogPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgIAo8P3hwYWNrZXQgZW5kPSJ3Ij8+j95pMQAAAAZiS0dEAOEA8QD/dfOjegAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB+cEChMGKVcg5f0AAAI3SURBVDjLtZXfa5JRGMefc9r7WliD2BSdONqEdWfiTQRN31dhbYbQQBjUXzD6AbO/IC92U3i7/QHtQgjCvR61CzdnCxYNS6gLt2qRW0TqQlNy57VzuoiN/VDRkd/L85zz4TnP4fs9CJrIRCQb5cwnYsHLOTNTVr8g4p5fCOEcZaoiIvxs52byXaOz6PiCPuqyYMaD53o07kmzW3Do7OKV3stwSWOCL3s7kClnIZVP0+e5hPq7vpdgGPl/eJY+NWsODIrDYyRyKbA5X+dtKLA5XzcSuWRQHJ6mwMHYWGWxkOSdaLGQ5IOxscoJsD7qshiJXOoUeBhsJHJJH3VZAAAwAABmPDg9MqX19jnhNPL2OWF6ZEqLGQ8CACATkWzimbOrn2/EtJ2AosVVuKjphWvnrQdrwy8mqvRP7TqmnPlumd1ip8AH67NHgAAAk2a3QDnzYRELXqfOLnQKfGS9e6Lm0NlFEQteGCDy7lZtu60HIYWX3BKf4E+/RRrWt2rbfIDIu9CvjKqHC6HvcZ74+bohcLgFcF/9yqjasNOry7e5//3jBkDSErjfKUYI5zLl7JHZrEkL8Cr/Fh5+eALLpTdwf30WAtZ7cMfoaTnvTDkLCOEcpkxVUvk0Pb5hTVqAj5Wv4EvNtAUEAEjl05QyVQETkWxD8fFKsyuF80ttO2soPl4xEcn2z/cROdxuiLQKF0NEDh/YlGHkn9sIVZXiyqlsqhRXYG4jVGUY+bubUv87T7uS/Kgbf9Rf0yA+0IduwJ8AAAAASUVORK5CYII=',
+            degraded: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAVCAYAAACpF6WWAAAAw3pUWHRSYXcgcHJvZmlsZSB0eXBlIGV4aWYAAHjabVDbDcMwCPxnio5gHnbwOE6bSt2g4xcCieK2F/l4nHXBwPZ+PeHmIBSQumjrrRWDdOk0LNESGDtjkZ2jqKnh3IdTIGuxRY5SW94/+ngaRBiW1YuR3lNYZ6FL+uuXEUVgn8jzRxr1NGIKAdNgxLNK67pcn7BuZYbGASfReeyferHtPar9h4k2Ri7GzBIDsB8GHpaIscs2MFfLyT7vYJrZQv7t6QB8AOHnWQjVWFw0AAABhWlDQ1BJQ0MgcHJvZmlsZQAAeJx9kTtIw0Acxr8+RCkVQTuIOGSoutjBB+JYq1CECqFWaNXB5NIXNGlIUlwcBdeCg4/FqoOLs64OroIg+ABxdXFSdJES/5cUWsR4cNyP7+77uPsO8DcqTDWDcUDVLCOdTAjZ3KrQ/YogQujHBMYkZupzopiC5/i6h4+vdzGe5X3uz9Gr5E0G+ATiONMNi3iDeGbT0jnvE0dYSVKIz4nHDbog8SPXZZffOBcd9vPMiJFJzxNHiIViB8sdzEqGSjxNHFVUjfL9WZcVzluc1UqNte7JXxjOayvLXKc5jCQWsQQRAmTUUEYFFmK0aqSYSNN+wsM/5PhFcsnkKoORYwFVqJAcP/gf/O7WLExNuknhBND1YtsfI0D3LtCs2/b3sW03T4DAM3Cltf3VBjD7SXq9rUWPgL5t4OK6rcl7wOUOMPikS4bkSAGa/kIBeD+jb8oBA7dAaM3trbWP0wcgQ12lboCDQ2C0SNnrHu/u6ezt3zOt/n4AxsJyyH6QMVkAAA16aVRYdFhNTDpjb20uYWRvYmUueG1wAAAAAAA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/Pgo8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJYTVAgQ29yZSA0LjQuMC1FeGl2MiI+CiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogIDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiCiAgICB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIKICAgIHhtbG5zOnN0RXZ0PSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VFdmVudCMiCiAgICB4bWxuczpHSU1QPSJodHRwOi8vd3d3LmdpbXAub3JnL3htcC8iCiAgICB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iCiAgICB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyIKICAgIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIKICAgeG1wTU06RG9jdW1lbnRJRD0iZ2ltcDpkb2NpZDpnaW1wOmE2ZWY1N2M0LWI2MTktNGUwZi05MjY5LTVlNzNhZWQ4MGMxOCIKICAgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo1YWFmZjkwMS1mZjA5LTRkY2QtOThjNC00ZTJjMTEwNzJlY2UiCiAgIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDowYTQzYjliNS05ZmRiLTRiNTYtYWE2YS1lYWYxZGFjOWI0ZDQiCiAgIEdJTVA6QVBJPSIyLjAiCiAgIEdJTVA6UGxhdGZvcm09Ik1hYyBPUyIKICAgR0lNUDpUaW1lU3RhbXA9IjE2ODExNTQ1NDQ0OTQ1NTkiCiAgIEdJTVA6VmVyc2lvbj0iMi4xMC4zNCIKICAgZGM6Rm9ybWF0PSJpbWFnZS9wbmciCiAgIHRpZmY6T3JpZW50YXRpb249IjEiCiAgIHhtcDpDcmVhdG9yVG9vbD0iR0lNUCAyLjEwIgogICB4bXA6TWV0YWRhdGFEYXRlPSIyMDIzOjA0OjEwVDE1OjIyOjExLTA0OjAwIgogICB4bXA6TW9kaWZ5RGF0ZT0iMjAyMzowNDoxMFQxNToyMjoxMS0wNDowMCI+CiAgIDx4bXBNTTpIaXN0b3J5PgogICAgPHJkZjpTZXE+CiAgICAgPHJkZjpsaQogICAgICBzdEV2dDphY3Rpb249InNhdmVkIgogICAgICBzdEV2dDpjaGFuZ2VkPSIvIgogICAgICBzdEV2dDppbnN0YW5jZUlEPSJ4bXAuaWlkOjdmMmFiODQwLTVhMDItNDE1NC05ZGIxLTljM2I4ZjAwMWI1NSIKICAgICAgc3RFdnQ6c29mdHdhcmVBZ2VudD0iR2ltcCAyLjEwIChNYWMgT1MpIgogICAgICBzdEV2dDp3aGVuPSIyMDIzLTA0LTEwVDE1OjIyOjI0LTA0OjAwIi8+CiAgICA8L3JkZjpTZXE+CiAgIDwveG1wTU06SGlzdG9yeT4KICA8L3JkZjpEZXNjcmlwdGlvbj4KIDwvcmRmOlJERj4KPC94OnhtcG1ldGE+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAKPD94cGFja2V0IGVuZD0idyI/Phvr460AAAAGYktHRADhAPEA/3Xzo3oAAAAHdElNRQfnBAoTFhhMPPeWAAACEUlEQVQ4y7WVv2taURTHz7n3XZ8PEetcHgiSglNEn0ITEikOKQE3lwbyH6RDHfo3FIk62H+gBDq5BCeHgLbg0kQ6VTAEBKdqQB9q/HF973QpNrSamNR8x3O4n/PlXO73IixRNxcJWlMrSVwkkEgnW7qRiT4httCSRe7gBe+7b98XncW/C7102C8ZZlHR4s7AnlB9Ww6uhwA1D9DIBKtVg0mzOh3XS5JmozNhU+rZ+4urZeagnTb2O5moeVPJz2gF3VTys04marbTxv5S4HV2eyAb5YWA7qc3C+uyUabr7PbgH3AvHfZ3MlFzGZCIqP1hc2lPNsrUyUTNXjrsBwBgAACSYdZlHLqUjRg8RspGDFzGoUsyzAIAsG4uEkRFi2u7Rxz+Q9ruEUdFi3dzkSCzplbSGXjtgDXIGdgT1tRKMuIiofpeinVAVd+Wg7hIKEikcz00b4wqeZA/f4Dq3wE1fPAgKNdDgES6QrZ0o+b5s5vYW2AXn2Fy9RUGXz6CeL4Jqn9nJShqHiBbuhVkok8j03sbrIYP5i4nvwcgV+6F0sgEZKKvEGLLatW8yotXi/d0a8B9slo1IMQWQ0sWJ83qdB0XNWlWp2jJIuMOXhjXS3Id0HG9JLmDFwAAoHNsnK4aIneGy7FxOn+mwqbU8PxkOLusPMrh7LICw/OTobAp9aCUuitMFqbUuvP0SZIfn+KP+gWnujG9DVWSwgAAAABJRU5ErkJggg==',
+            partial: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAVCAYAAACpF6WWAAAAwnpUWHRSYXcgcHJvZmlsZSB0eXBlIGV4aWYAAHjabVBbDsMgDPvnFDsCxCENx6FbJ+0GO/5Ck1ZlmyWch5EJSdv79Uy3ASqcuC4qTSQbuHGjbolmR9+5ZN7ZixpamfvpFMhasAgvVeL+0S+ngYduWb0Y6T2EdRYah79+GZEHjIlG/gijFkYgF0oYdP9WlqbL9QvrlmeonzSIdR77p15se49q74BoQ0E2BtgHwDhI6Jaw8ZBtYOiei3GFhJkt5N+eDqQP5HtZF+0tzu4AAAGEaUNDUElDQyBwcm9maWxlAAB4nH2RPUjDQBzFXz9EqRUHSxFxyFCd7KIijrUKRagQaoVWHUwu/YImDUmKi6PgWnDwY7Hq4OKsq4OrIAh+gLi6OCm6SIn/SwotYjw47se7e4+7d4C/WWWqGUwAqmYZmVRSyOVXhd5XBBFCFP2ISszU50QxDc/xdQ8fX+/iPMv73J9jQCmYDPAJxAmmGxbxBvHMpqVz3ieOsLKkEJ8TTxh0QeJHrssuv3EuOeznmREjm5knjhALpS6Wu5iVDZV4mjimqBrl+3MuK5y3OKvVOmvfk78wXNBWlrlOcxQpLGIJIgTIqKOCKizEadVIMZGh/aSHf8Txi+SSyVUBI8cCalAhOX7wP/jdrVmcmnSTwkmg58W2P8aA3l2g1bDt72Pbbp0AgWfgSuv4a01g9pP0RkeLHQGD28DFdUeT94DLHWD4SZcMyZECNP3FIvB+Rt+UB4ZugdCa21t7H6cPQJa6St8AB4fAeImy1z3e3dfd279n2v39AEefcpXBqX+0AAAOXmlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNC40LjAtRXhpdjIiPgogPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iCiAgICB4bWxuczpzdEV2dD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlRXZlbnQjIgogICAgeG1sbnM6R0lNUD0iaHR0cDovL3d3dy5naW1wLm9yZy94bXAvIgogICAgeG1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8xLjEvIgogICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iCiAgICB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iCiAgIHhtcE1NOkRvY3VtZW50SUQ9ImdpbXA6ZG9jaWQ6Z2ltcDo5ZDYwMTZhNS05ODYzLTRjYzctODdkMS1mNjZiMDcyOTY5NTMiCiAgIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6ZDk1ZWYwOTktMWRlYi00YWQyLWE3YTctYmJiODhhN2RjNTFlIgogICB4bXBNTTpPcmlnaW5hbERvY3VtZW50SUQ9InhtcC5kaWQ6NDRhZWI5OTktNGQwNS00NzczLWEyMzYtNTUwMTFjN2I5N2VjIgogICBHSU1QOkFQST0iMi4wIgogICBHSU1QOlBsYXRmb3JtPSJNYWMgT1MiCiAgIEdJTVA6VGltZVN0YW1wPSIxNjgxMTY1MDE4MzEwMjc2IgogICBHSU1QOlZlcnNpb249IjIuMTAuMzQiCiAgIGRjOkZvcm1hdD0iaW1hZ2UvcG5nIgogICB0aWZmOk9yaWVudGF0aW9uPSIxIgogICB4bXA6Q3JlYXRvclRvb2w9IkdJTVAgMi4xMCIKICAgeG1wOk1ldGFkYXRhRGF0ZT0iMjAyMzowNDoxMFQxODoxNjo1Ni0wNDowMCIKICAgeG1wOk1vZGlmeURhdGU9IjIwMjM6MDQ6MTBUMTg6MTY6NTYtMDQ6MDAiPgogICA8eG1wTU06SGlzdG9yeT4KICAgIDxyZGY6U2VxPgogICAgIDxyZGY6bGkKICAgICAgc3RFdnQ6YWN0aW9uPSJzYXZlZCIKICAgICAgc3RFdnQ6Y2hhbmdlZD0iLyIKICAgICAgc3RFdnQ6aW5zdGFuY2VJRD0ieG1wLmlpZDozNjY3MTYxNi1hZWE1LTRhYTgtYTI1Zi03MWEwNDY4MzUyMjQiCiAgICAgIHN0RXZ0OnNvZnR3YXJlQWdlbnQ9IkdpbXAgMi4xMCAoTWFjIE9TKSIKICAgICAgc3RFdnQ6d2hlbj0iMjAyMy0wNC0xMFQxNzoxNjozOC0wNDowMCIvPgogICAgIDxyZGY6bGkKICAgICAgc3RFdnQ6YWN0aW9uPSJzYXZlZCIKICAgICAgc3RFdnQ6Y2hhbmdlZD0iLyIKICAgICAgc3RFdnQ6aW5zdGFuY2VJRD0ieG1wLmlpZDplMTE5MzFjYS0yNTM1LTQwYjQtYmJiNS02ZDY2NmQ1NmFmZDkiCiAgICAgIHN0RXZ0OnNvZnR3YXJlQWdlbnQ9IkdpbXAgMi4xMCAoTWFjIE9TKSIKICAgICAgc3RFdnQ6d2hlbj0iMjAyMy0wNC0xMFQxODoxNjo1OC0wNDowMCIvPgogICAgPC9yZGY6U2VxPgogICA8L3htcE1NOkhpc3Rvcnk+CiAgPC9yZGY6RGVzY3JpcHRpb24+CiA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgCjw/eHBhY2tldCBlbmQ9InciPz6It/gJAAAABmJLR0QA4QDxAP9186N6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH5wQKFhA6yc3THwAAAkJJREFUOMu1lc9LVFEUx7/nvrkzow9TqU3QgCAmsxMdH4xGEg1YgtDC7eAm15EL/wCXgzMSRptWMsvaiBuDDKfCYDRxJ40ExiwCx9Knzq93585pEQyV74Va810evvdzz73c870EDx3OD/ZpR0+wIceJOcR11UZCnjBRnrRaNvzGy87HG9tua+nPwlFioFsJSpGv5W4wPCoDXUN+I9QPamkHl23o/Baqe+tOZeeV4lp5VdZ5umPm42ev5rCfiIwVkpZdyizU+BwqZRZqhaRl7yciY57Ag9Twqcqt8UWkcmt8kBo+PQM+Sgx0F5KWfVHgr+BC0rKPEgPdACAAQAlKmZG46esZwWXk6xmBGYmbSlAKAOhwfrBPU/D91UdvTfyjvj25XTS4cktoR08Ew/f8HiZUsunfapVsGt+fxlyhwfCo1I6eEGzI8UBXVLqZzOgUih+eQ3163QCWsototSZdoYGuIT8bctxHzCEj1O++sxWH0X4dxyuzCHzZgJNbRceDOYgbfa5+I9QPYg4Jrqs2amn3vCfZG0MgfB/l7Rcwhx56AgH8HJC6ahMk5AmXbU9jJZuGk1vFldgMTt89a1yFm7hsg4Q88TFRXue3On0377gCS9nFxpGFeQ3HK7Mw7a8IWvEzfp3fAhPlBWm1XN1bd9x2ru6+Qas12Tiy7I3BjE6hsrPi2ml1b90hrZab8k4BAIW5yNJ5Q+Sv4TIXWWqMqazzdHEzXaztZi7VYW03g+JmuijrPN3clPrfedqU5Kdm/FE/ABEeYOHyMAJxAAAAAElFTkSuQmCC',
+            outage: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAVCAYAAACpF6WWAAAAxXpUWHRSYXcgcHJvZmlsZSB0eXBlIGV4aWYAAHjabVBbDoMwDPvvKXaENk5fxymDSbvBjj+XBATTItV1bGTShO3zfoXHLEkaNNdWeimRpV27DJIWrcaOKeqO1mT30l0PpyGUwBvWtuLfH3o6A+waZPkS1J5uLHejq+e3nyD/EeZEQrJ6UPcgiBnJA4Y9K5be6vUJyxbv1eyECah79hny22vl9tZMESIbEiIRUBsA8yBgkChx2hwYlRy0BtXik3Ah//Z0VPgC6HRZHIMxxygAAAGFaUNDUElDQyBwcm9maWxlAAB4nH2RO0jDQBzGvz5EKRVBO4g4ZKi62MEH4lirUIQKoVZo1cHk0hc0aUhSXBwF14KDj8Wqg4uzrg6ugiD4AHF1cVJ0kRL/lxRaxHhw3I/v7vu4+w7wNypMNYNxQNUsI51MCNncqtD9iiBC6McExiRm6nOimILn+LqHj693MZ7lfe7P0avkTQb4BOI40w2LeIN4ZtPSOe8TR1hJUojPiccNuiDxI9dll984Fx3288yIkUnPE0eIhWIHyx3MSoZKPE0cVVSN8v1ZlxXOW5zVSo217slfGM5rK8tcpzmMJBaxBBECZNRQRgUWYrRqpJhI037Cwz/k+EVyyeQqg5FjAVWokBw/+B/87tYsTE26SeEE0PVi2x8jQPcu0Kzb9vexbTdPgMAzcKW1/dUGMPtJer2tRY+Avm3g4rqtyXvA5Q4w+KRLhuRIAZr+QgF4P6NvygEDt0Boze2ttY/TByBDXaVugINDYLRI2ese7+7p7O3fM63+fgDGwnLIfpAxWQAADl5pVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+Cjx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IlhNUCBDb3JlIDQuNC4wLUV4aXYyIj4KIDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+CiAgPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIKICAgIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIgogICAgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIKICAgIHhtbG5zOkdJTVA9Imh0dHA6Ly93d3cuZ2ltcC5vcmcveG1wLyIKICAgIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIKICAgIHhtbG5zOnRpZmY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vdGlmZi8xLjAvIgogICAgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIgogICB4bXBNTTpEb2N1bWVudElEPSJnaW1wOmRvY2lkOmdpbXA6MWNhZTMyNjEtY2MyYy00NjEwLWEzOTgtYTk2ZmRiOTE4YmFiIgogICB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOmYzNDYxNGUwLTVhYzgtNDU5Yi04NDY2LTFiOThhOTJmNmEwNyIKICAgeG1wTU06T3JpZ2luYWxEb2N1bWVudElEPSJ4bXAuZGlkOjY0YjI1MDc4LTEyOWYtNDExZS1iN2IxLWE5M2U2MDA1OWFjZCIKICAgR0lNUDpBUEk9IjIuMCIKICAgR0lNUDpQbGF0Zm9ybT0iTWFjIE9TIgogICBHSU1QOlRpbWVTdGFtcD0iMTY4MTE2MjM2ODAyMzE5NCIKICAgR0lNUDpWZXJzaW9uPSIyLjEwLjM0IgogICBkYzpGb3JtYXQ9ImltYWdlL3BuZyIKICAgdGlmZjpPcmllbnRhdGlvbj0iMSIKICAgeG1wOkNyZWF0b3JUb29sPSJHSU1QIDIuMTAiCiAgIHhtcDpNZXRhZGF0YURhdGU9IjIwMjM6MDQ6MTBUMTc6MzI6NDYtMDQ6MDAiCiAgIHhtcDpNb2RpZnlEYXRlPSIyMDIzOjA0OjEwVDE3OjMyOjQ2LTA0OjAwIj4KICAgPHhtcE1NOkhpc3Rvcnk+CiAgICA8cmRmOlNlcT4KICAgICA8cmRmOmxpCiAgICAgIHN0RXZ0OmFjdGlvbj0ic2F2ZWQiCiAgICAgIHN0RXZ0OmNoYW5nZWQ9Ii8iCiAgICAgIHN0RXZ0Omluc3RhbmNlSUQ9InhtcC5paWQ6ZGRlZDhiMmMtNzI5ZC00MzNmLTlmYTEtMmUyYTYxNGU4MjhiIgogICAgICBzdEV2dDpzb2Z0d2FyZUFnZW50PSJHaW1wIDIuMTAgKE1hYyBPUykiCiAgICAgIHN0RXZ0OndoZW49IjIwMjMtMDQtMTBUMTU6MTE6NTItMDQ6MDAiLz4KICAgICA8cmRmOmxpCiAgICAgIHN0RXZ0OmFjdGlvbj0ic2F2ZWQiCiAgICAgIHN0RXZ0OmNoYW5nZWQ9Ii8iCiAgICAgIHN0RXZ0Omluc3RhbmNlSUQ9InhtcC5paWQ6ZjdmZWIxZWUtNDlmZC00Zjc0LTk5N2EtZTBmMDY4NzYyYjg4IgogICAgICBzdEV2dDpzb2Z0d2FyZUFnZW50PSJHaW1wIDIuMTAgKE1hYyBPUykiCiAgICAgIHN0RXZ0OndoZW49IjIwMjMtMDQtMTBUMTc6MzI6NDgtMDQ6MDAiLz4KICAgIDwvcmRmOlNlcT4KICAgPC94bXBNTTpIaXN0b3J5PgogIDwvcmRmOkRlc2NyaXB0aW9uPgogPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgIAo8P3hwYWNrZXQgZW5kPSJ3Ij8+AnmGNgAAAAZiS0dEAOEA8QD/dfOjegAAAAd0SU1FB+cEChUgMPQYsqsAAAIzSURBVDjLtVXPaxNBGH2zm90EwlZ7UE+eAr3kkErBVGrswUspzbLQ2EMsZBtCLUQ85OgfkUspeArxIpJ42FJKexE1prSGBgwaxIOnnHYLhfzYdLObzXgQajSb0Fbzjt988+bN9833hmAINEmehkUjlHeFiW3fprYtEJZtUpatEbO7A468ualkPzvtJX8HVCnmQ49JEzf/0BMKclzAz3se3D1fNwolWJWqaXz8ZNGO+RZML3VLefkDQ9UtyYuqGK+3MrkuvQBamVxXFeN1bUleHEqoLSdaZ8VjehmcFY+ptpxoDRCrUsynivH6ZQn7iVUxXlelmA8AGABAj0l7pQWvZ24GV4FnbgZeacGLHpMGAKJJ8jQ4d/FG7oUX/4iTlQ0dVuc+A4tGPKEg71jnlQ0YH47+iLXzuzh5/NRZcSjIwaIRhvKuMBfwc05JE0kZja3sOXE7vwtd2YOwvupIygX8POVdYWiifDqyCe8PqfroCW1sZqgWTdLO1+8jm6aJ8qmL2rYwsgnzs7C+fEN7/x2ERBS8f2pkXaltCwxh2eaopHZ+F8ZhGUIiitYrZaDGAyPKsk0XZdmaUShN9o9iP6Gu7OHa82fg/VNgJq+jsZUF4d1w37szkG8USqAsW2OI2d2xKlXT6dTOURnC+ur5lT3zs5hIytBfK44qrUrVJGZ3Zyzv9NeYimvbFzWR0eaytv17TJleSlf2deOgfCWFxkEZurKvg+mlxutS/9tPx+L8ZBx/1E/PJoe2OQyLfwAAAABJRU5ErkJggg==',
+            maintenance: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAVCAYAAACpF6WWAAAAxHpUWHRSYXcgcHJvZmlsZSB0eXBlIGV4aWYAAHjabVBbDsMgDPvnFDsCxOF1HLp20m6w4880adVOs4RJYmSShO3zfoXHhCQNmmsrvZRIaNcug0GLhrFzirqzJdm1dK+HUxCWwBuWtuLvj3o6DewajPLFqD1dWO5CV/dvP0b+EWZHwmB1o+5GEBOSGwwbK5be6nWEZYt3NDthEurufZr85lq5vTWzCJENCZEMqDWAeRAwGCh5ymwYlTFQyIJjVC7k354OhC/osFkd9/XXAAAAAYVpQ0NQSUNDIHByb2ZpbGUAAHicfZE7SMNAHMa/PkQpFUE7iDhkqLrYwQfiWKtQhAqhVmjVweTSFzRpSFJcHAXXgoOPxaqDi7OuDq6CIPgAcXVxUnSREv+XFFrEeHDcj+/u+7j7DvA3Kkw1g3FA1SwjnUwI2dyq0P2KIELoxwTGJGbqc6KYguf4uoePr3cxnuV97s/Rq+RNBvgE4jjTDYt4g3hm09I57xNHWElSiM+Jxw26IPEj12WX3zgXHfbzzIiRSc8TR4iFYgfLHcxKhko8TRxVVI3y/VmXFc5bnNVKjbXuyV8Yzmsry1ynOYwkFrEEEQJk1FBGBRZitGqkmEjTfsLDP+T4RXLJ5CqDkWMBVaiQHD/4H/zu1ixMTbpJ4QTQ9WLbHyNA9y7QrNv297FtN0+AwDNwpbX91QYw+0l6va1Fj4C+beDiuq3Je8DlDjD4pEuG5EgBmv5CAXg/o2/KAQO3QGjN7a21j9MHIENdpW6Ag0NgtEjZ6x7v7uns7d8zrf5+AMbCcsh+kDFZAAAOXmlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNC40LjAtRXhpdjIiPgogPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iCiAgICB4bWxuczpzdEV2dD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlRXZlbnQjIgogICAgeG1sbnM6R0lNUD0iaHR0cDovL3d3dy5naW1wLm9yZy94bXAvIgogICAgeG1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8xLjEvIgogICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iCiAgICB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iCiAgIHhtcE1NOkRvY3VtZW50SUQ9ImdpbXA6ZG9jaWQ6Z2ltcDo3MjkzZjhhNi1kNTMzLTRkMGItYjhiNS1mNTliMWEzNjAyOTEiCiAgIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6MDc0OTBjZDktYTA5ZC00YWRmLTk0MjQtYTViNzkwNWI5NmRjIgogICB4bXBNTTpPcmlnaW5hbERvY3VtZW50SUQ9InhtcC5kaWQ6NTdjZWRiMjQtYjNhNy00ZmM1LWFhMTgtZjEwZjliNjMyODQ2IgogICBHSU1QOkFQST0iMi4wIgogICBHSU1QOlBsYXRmb3JtPSJNYWMgT1MiCiAgIEdJTVA6VGltZVN0YW1wPSIxNjgxMTYyNTg3MTAxNTQyIgogICBHSU1QOlZlcnNpb249IjIuMTAuMzQiCiAgIGRjOkZvcm1hdD0iaW1hZ2UvcG5nIgogICB0aWZmOk9yaWVudGF0aW9uPSIxIgogICB4bXA6Q3JlYXRvclRvb2w9IkdJTVAgMi4xMCIKICAgeG1wOk1ldGFkYXRhRGF0ZT0iMjAyMzowNDoxMFQxNzozNjoyNS0wNDowMCIKICAgeG1wOk1vZGlmeURhdGU9IjIwMjM6MDQ6MTBUMTc6MzY6MjUtMDQ6MDAiPgogICA8eG1wTU06SGlzdG9yeT4KICAgIDxyZGY6U2VxPgogICAgIDxyZGY6bGkKICAgICAgc3RFdnQ6YWN0aW9uPSJzYXZlZCIKICAgICAgc3RFdnQ6Y2hhbmdlZD0iLyIKICAgICAgc3RFdnQ6aW5zdGFuY2VJRD0ieG1wLmlpZDo3ODE0MmE5Yi1hZGM4LTRlZjctODQ2Zi1hNGE2OWI4NWU0MTgiCiAgICAgIHN0RXZ0OnNvZnR3YXJlQWdlbnQ9IkdpbXAgMi4xMCAoTWFjIE9TKSIKICAgICAgc3RFdnQ6d2hlbj0iMjAyMy0wNC0xMFQxNDo1NToyNi0wNDowMCIvPgogICAgIDxyZGY6bGkKICAgICAgc3RFdnQ6YWN0aW9uPSJzYXZlZCIKICAgICAgc3RFdnQ6Y2hhbmdlZD0iLyIKICAgICAgc3RFdnQ6aW5zdGFuY2VJRD0ieG1wLmlpZDo4NWI2YjcwMi0zNWRmLTRlMWYtYjVlYy1hZmU0ODc4YjI5NWMiCiAgICAgIHN0RXZ0OnNvZnR3YXJlQWdlbnQ9IkdpbXAgMi4xMCAoTWFjIE9TKSIKICAgICAgc3RFdnQ6d2hlbj0iMjAyMy0wNC0xMFQxNzozNjoyNy0wNDowMCIvPgogICAgPC9yZGY6U2VxPgogICA8L3htcE1NOkhpc3Rvcnk+CiAgPC9yZGY6RGVzY3JpcHRpb24+CiA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgCjw/eHBhY2tldCBlbmQ9InciPz7ERBLGAAAABmJLR0QA4QDxAP9186N6AAAAB3RJTUUH5wQKFSQbPMiO7wAAAl5JREFUOMu1ld9LU3EYxj/fc7YzTOYWrJrCLmQXK0EamF3HujMmCOvOH9BdoQZbEyH/gEASvA0Rgm5KKZbsslkXXQQVi1AS/AHtQpCVTVe2s529XQjZfvkD8r368n55nvPyfZ73OYoG5Y5L0CwScdgIlwWfaeE0dHY1RaZQYsGwM/9jUqXrYVV1wxEXv2Ex1WxwPdKFPRTAaPdAsBXSm7CRhdQK5vwHij9NXpk60cKkWms0HC1R6XHFJDeRlJIcoyaSUnLFJNcSlZ6GhJ4xySeW5ESVWBLxjEm+htgRF78rJrmTEv5L7IpJzhEXP4AGYFhMjYRo7u2g8dPctRre9XbASIhmw2Lqr8recckfNklqVeTMcFGSy4dP7B2XvDsuQZtZJNJ/FaP66y8+w9gzi7azivUtIeBVDM5YFIrQ5oaJsMZAd6V5Il3YZ98S0Rw2wqEA9mrSvk6wa+BugswDnY/3dbIPdW52K7wuVUMIEApgOGyEtbLga/fUvtPiGnzdhsRtraI/O6CxsyfMf6rFtHugLPhspoUz2ForilUWAhdUXWHOORWDMyVuaYqXozrX/Pv9YCuYFk7N0NlNb1aCdqZ15u7Y2P5VX+3Md+HRkI2d6QNC2N84Q2dX0xSZjWwtsOcS+M8rhh6XK/r3npdZ3RL6r9RiNrKgKTK2QomF1AoX+zorHbC4BvnfwtN3wusv++p/ywt7RbjsUySX4UaVr1MrmIUSCw19+mb94DyXFmkaLsqT9/Xvq30KgDMqiaNCxDlaOjJcnFFJnGj3F1ePv/unl1L/O09PJfnVafyj/gAap/WJXtB/2wAAAABJRU5ErkJggg=='
+        };
+        return icons[statusClass];
+    }
+    
+    function renderStatus(data) {
+        const container = document.getElementById('contentContainer');
+        const generalStatusSpan = document.getElementById('generalStatus');
+        const statusIndicator = document.getElementById('statusIndicator');
+        const lastUpdateText = document.getElementById('lastUpdateText');
+        const cacheInfo = document.getElementById('cacheInfo');
+        const globalStatusBadge = document.getElementById('globalStatusBadge');
+        const totalServicesSpan = document.getElementById('totalServices');
+        const operationalCountSpan = document.getElementById('operationalCount');
+        const affectedCountSpan = document.getElementById('affectedCount');
+        
+        if (!data.success) {
+            generalStatusSpan.textContent = 'Error al cargar datos';
+            generalStatusSpan.classList.add('text-red-300');
+            statusIndicator.className = 'w-3 h-3 bg-red-400 rounded-full';
+            lastUpdateText.textContent = 'Error de conexión';
+            globalStatusBadge.className = 'px-2 py-1 rounded-full text-xs font-bold bg-red-100 text-red-700';
+            globalStatusBadge.textContent = 'Error';
+            container.innerHTML = `
+                <div class="bg-white p-8 rounded-2xl text-center text-gray-400 shadow-sm">
+                    <i class="fas fa-exclamation-triangle text-3xl mb-2 text-red-400"></i>
+                    <p class="text-sm text-red-600">⚠️ No se pudieron cargar los datos</p>
+                    <p class="text-xs text-gray-400 mt-2">${data.error || 'Error de conexión con la API'}</p>
+                </div>
+            `;
+            return;
+        }
+        
+        const translatedGeneralStatus = translateGeneralStatus(data.generalStatus);
+        generalStatusSpan.textContent = translatedGeneralStatus;
+        const isOperational = data.isAllOperational;
+        generalStatusSpan.className = isOperational ? 'text-white text-2xl font-extrabold' : 'text-yellow-200 text-2xl font-extrabold';
+        statusIndicator.className = `w-3 h-3 rounded-full ${isOperational ? 'bg-green-400' : 'bg-yellow-400'} animate-pulse-slow`;
+        lastUpdateText.textContent = formatDate(data.lastUpdate);
+        globalStatusBadge.className = `px-2 py-1 rounded-full text-xs font-bold ${isOperational ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`;
+        globalStatusBadge.textContent = isOperational ? 'Todos OK' : 'Alerta';
+        
+        let totalServices = 0;
+        let operationalCount = 0;
+        
+        if (data.groups) {
+            data.groups.forEach(group => {
+                if (group.children) {
+                    group.children.forEach(child => {
+                        totalServices++;
+                        if (child.statusClass === 'operational') operationalCount++;
+                    });
+                }
+            });
+        }
+        if (data.individualServices) {
+            data.individualServices.forEach(service => {
+                totalServices++;
+                if (service.statusClass === 'operational') operationalCount++;
+            });
+        }
+        
+        totalServicesSpan.textContent = totalServices;
+        operationalCountSpan.textContent = operationalCount;
+        affectedCountSpan.textContent = totalServices - operationalCount;
+        
+        let html = '';
+        
+        if (data.individualServices && data.individualServices.length > 0) {
+            html += `
+                <div class="bg-white rounded-2xl shadow-sm border-l-4 border-gray-300 overflow-hidden fade-in">
+                    <div class="p-4 bg-gray-50/50 border-b border-gray-100">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-cogs text-gray-500"></i>
+                            <h3 class="font-bold text-gray-800">Servicios Individuales</h3>
+                        </div>
+                    </div>
+                    <div class="divide-y divide-gray-100">
+            `;
+            
+            data.individualServices.forEach(service => {
+                const translatedServiceStatus = translateStatus(service.status);
+                const serviceColor = getStatusColor(service.statusClass);
+                const serviceIcon = getStatusIcon(service.statusClass);
+                const iconColor = service.statusClass === 'operational' ? 'text-emerald-500' : 
+                                service.statusClass === 'degraded' ? 'text-yellow-500' : 
+                                service.statusClass === 'partial' ? 'text-orange-500' :
+                                service.statusClass === 'outage' ? 'text-red-500' : 'text-blue-500';
+                
+                html += `
+                    <div class="flex justify-between items-center p-3 hover:bg-gray-50 transition-colors">
+                        <div class="flex items-center gap-2 min-w-0">
+                            <!-- ESPACIO PARA ICONO DEL SERVICIO -->
+                            ${serviceIcon ? `<img src="${serviceIcon}" class="w-4 h-4 ${iconColor}" alt="status">` : `<i class="fas ${service.statusClass === 'operational' ? 'fa-check-circle' : service.statusClass === 'degraded' ? 'fa-exclamation-triangle' : service.statusClass === 'partial' ? 'fa-chart-line' : service.statusClass === 'outage' ? 'fa-times-circle' : 'fa-tools'} ${iconColor} text-xs"></i>`}
+                            <span class="text-sm text-gray-700 truncate">${escapeHtml(service.name)}</span>
+                        </div>
+                        <span class="text-xs font-medium ${service.statusClass === 'operational' ? 'text-emerald-600' : service.statusClass === 'degraded' ? 'text-yellow-600' : service.statusClass === 'partial' ? 'text-orange-600' : service.statusClass === 'outage' ? 'text-red-600' : 'text-blue-600'}">
+                            ${translatedServiceStatus}
+                        </span>
+                    </div>
+                `;
+            });
+            
+            html += `
+                    </div>
+                </div>
+            `;
+        }
+        
+        if (data.groups && data.groups.length > 0) {
+            data.groups.forEach(group => {
+                const color = getStatusColor(group.statusClass);
+                const borderColor = color === 'green' ? 'border-indigo-500' : 
+                                  color === 'yellow' ? 'border-yellow-500' :
+                                  color === 'orange' ? 'border-orange-500' : 'border-red-500';
+                
+                let groupIcon = 'fa-boxes';
+                if (group.name === 'Envía') groupIcon = 'fa-paper-plane';
+                else if (group.name === 'Retiros') groupIcon = 'fa-money-bill-wave';
+                else if (group.name === 'Recargas') groupIcon = 'fa-mobile-alt';
+                
+                html += `
+                    <div class="bg-white rounded-2xl shadow-sm border-l-4 ${borderColor} overflow-hidden fade-in">
+                        <div class="p-4 bg-gray-50/50 border-b border-gray-100">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center gap-2">
+                                    <i class="fas ${groupIcon} text-indigo-500"></i>
+                                    <h3 class="font-bold text-gray-800">${escapeHtml(group.name)}</h3>
+                                </div>
+                                ${getStatusBadge(group.status, group.statusClass)}
+                            </div>
+                        </div>
+                        <div class="divide-y divide-gray-100">
+                `;
+                
+                if (group.children && group.children.length > 0) {
+                    group.children.forEach(child => {
+                        const translatedChildStatus = translateStatus(child.status);
+                        const childColor = getStatusColor(child.statusClass);
+                        const childIcon = getStatusIcon(child.statusClass);
+                        const iconColor = child.statusClass === 'operational' ? 'text-emerald-500' : 
+                                        child.statusClass === 'degraded' ? 'text-yellow-500' : 
+                                        child.statusClass === 'partial' ? 'text-orange-500' :
+                                        child.statusClass === 'outage' ? 'text-red-500' : 'text-blue-500';
+                        
+                        html += `
+                            <div class="flex justify-between items-center p-3 hover:bg-gray-50 transition-colors">
+                                <div class="flex items-center gap-2 min-w-0">
+                                    <!-- ESPACIO PARA ICONO DEL SERVICIO -->
+                                    ${childIcon ? `<img src="${childIcon}" class="w-4 h-4 ${iconColor}" alt="status">` : `<i class="fas ${child.statusClass === 'operational' ? 'fa-check-circle' : child.statusClass === 'degraded' ? 'fa-exclamation-triangle' : child.statusClass === 'partial' ? 'fa-chart-line' : child.statusClass === 'outage' ? 'fa-times-circle' : 'fa-tools'} ${iconColor} text-xs"></i>`}
+                                    <span class="text-sm text-gray-700 truncate">${escapeHtml(child.name)}</span>
+                                </div>
+                                <span class="text-xs font-medium ${child.statusClass === 'operational' ? 'text-emerald-600' : child.statusClass === 'degraded' ? 'text-yellow-600' : child.statusClass === 'partial' ? 'text-orange-600' : child.statusClass === 'outage' ? 'text-red-600' : 'text-blue-600'}">
+                                    ${translatedChildStatus}
+                                </span>
+                            </div>
+                        `;
+                    });
+                }
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+            });
+        }
+        
+        if ((!data.groups || data.groups.length === 0) && (!data.individualServices || data.individualServices.length === 0)) {
+            html = `
+                <div class="bg-white p-8 rounded-2xl text-center text-gray-400 shadow-sm">
+                    <i class="fas fa-inbox text-3xl mb-2 opacity-30"></i>
+                    <p class="text-sm">No se encontraron servicios para mostrar</p>
+                </div>
+            `;
+        }
+        
+        container.innerHTML = html;
+    }
+    
+    function escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+    
+    async function loadStatus(forceRefresh = false) {
+        if (!forceRefresh) {
+            const cachedData = getFromCache();
+            if (cachedData) {
+                renderStatus(cachedData);
+                return;
+            }
+        }
+        
+        try {
+            const url = forceRefresh ? `${API_URL}?refresh=true` : API_URL;
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 15000);
+            
+            const response = await fetch(url, {
+                signal: controller.signal,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+            
+            clearTimeout(timeoutId);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+            
+            const data = await response.json();
+            
+            if (data && data.success !== false) {
+                saveToCache(data);
+                renderStatus(data);
+            } else {
+                throw new Error(data.error || 'Datos inválidos del API');
+            }
+            
+        } catch (error) {
+            console.error('❌ Error cargando datos:', error);
+            
+            const expiredCache = localStorage.getItem(CACHE_KEY);
+            if (expiredCache) {
+                const cacheData = JSON.parse(expiredCache);
+                renderStatus(cacheData.data);
+                const lastUpdateSpan = document.getElementById('lastUpdateText');
+                lastUpdateSpan.innerHTML = `<i class="fas fa-exclamation-triangle text-yellow-400 mr-1"></i>${formatDate(cacheData.data.lastUpdate)} (offline)`;
+            } else {
+                renderStatus({
+                    success: false,
+                    error: error.message,
+                    generalStatus: 'Error de conexión'
+                });
+            }
+        }
+    }
+    
+    loadStatus();
+    
+    setInterval(() => {
+      loadStatus();
+    }, 600000);
+    
+    document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) {
+            const cached = localStorage.getItem(CACHE_KEY);
+            if (cached) {
+                const cacheData = JSON.parse(cached);
+                const age = Date.now() - cacheData.timestamp;
+                if (age >= CACHE_DURATION) {
+                    loadStatus(true);
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>
